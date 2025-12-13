@@ -1,4 +1,5 @@
 const express = require("express");
+const { protect } = require("./middlewares/auth.middleware");
 
 const app = express();
 
@@ -9,10 +10,6 @@ app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Sweet Shop Backend!");
-});
-
-app.get("/api/protected", (req, res) => {
-  res.json({ message: "Access granted" });
 });
 
 module.exports = app;
