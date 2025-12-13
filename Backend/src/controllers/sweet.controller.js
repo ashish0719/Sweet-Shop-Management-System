@@ -1,25 +1,60 @@
 const Sweet = require("../models/Sweet");
 
+const mapSweetToResponse = (sweet) => {
+  const sweetObj = {
+    id: sweet._id.toString(),
+    name: sweet.name,
+    category: sweet.category,
+    price: sweet.price,
+    quantity: sweet.quantity,
+  };
+  if (sweet.imageUrl) {
+    sweetObj.image = sweet.imageUrl;
+  }
+  return sweetObj;
+};
+
 exports.getSweets = async (req, res) => {
   try {
     const sweets = await Sweet.find({});
-    const sweetsResponse = sweets.map((sweet) => {
-      const sweetObj = {
-        id: sweet._id.toString(),
-        name: sweet.name,
-        category: sweet.category,
-        price: sweet.price,
-        quantity: sweet.quantity,
-      };
-      if (sweet.imageUrl) {
-        sweetObj.image = sweet.imageUrl;
-      }
-      return sweetObj;
-    });
+    const sweetsResponse = sweets.map(mapSweetToResponse);
 
     return res.status(200).json(sweetsResponse);
   } catch (error) {
     console.error("GET SWEETS ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.searchSweets = async (req, res) => {
+  try {
+    const { name, category, minPrice, maxPrice } = req.query;
+    const query = {};
+
+    if (name) {
+      query.name = { $regex: name, $options: "i" };
+    }
+
+    if (category) {
+      query.category = category;
+    }
+
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) {
+        query.price.$gte = parseFloat(minPrice);
+      }
+      if (maxPrice) {
+        query.price.$lte = parseFloat(maxPrice);
+      }
+    }
+
+    const sweets = await Sweet.find(query);
+    const sweetsResponse = sweets.map(mapSweetToResponse);
+
+    return res.status(200).json(sweetsResponse);
+  } catch (error) {
+    console.error("SEARCH SWEETS ERROR:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
