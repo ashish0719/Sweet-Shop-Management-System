@@ -3,6 +3,9 @@ const app = require("../src/app");
 const Sweet = require("../src/models/Sweet");
 
 describe("GET /api/sweets", () => {
+  beforeEach(async () => {
+    await Sweet.deleteMany({});
+  });
   it("should return 200 and an array", async () => {
     const res = await request(app).get("/api/sweets");
 
