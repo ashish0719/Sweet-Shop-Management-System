@@ -11,4 +11,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Sweet Shop Backend!");
 });
 
+app.get("/api/protected", (req, res) => {
+  res.json({ message: "Access granted" });
+});
+
 module.exports = app;
