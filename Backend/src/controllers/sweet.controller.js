@@ -81,3 +81,28 @@ exports.addSweet = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.updateSweet = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, category, price, quantity, imageUrl } = req.body;
+
+    const sweet = await Sweet.findById(id);
+    if (!sweet) {
+      return res.status(404).json({ message: "Sweet not found" });
+    }
+
+    if (name !== undefined) sweet.name = name;
+    if (category !== undefined) sweet.category = category;
+    if (price !== undefined) sweet.price = price;
+    if (quantity !== undefined) sweet.quantity = quantity;
+    if (imageUrl !== undefined) sweet.imageUrl = imageUrl || null;
+
+    await sweet.save();
+
+    return res.status(200).json(mapSweetToResponse(sweet));
+  } catch (error) {
+    console.error("UPDATE SWEET ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
