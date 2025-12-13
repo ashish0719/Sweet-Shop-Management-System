@@ -122,3 +122,26 @@ exports.deleteSweet = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.purchaseSweet = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const sweet = await Sweet.findById(id);
+    if (!sweet) {
+      return res.status(404).json({ message: "Sweet not found" });
+    }
+
+    if (sweet.quantity === 0) {
+      return res.status(400).json({ message: "Sweet out of stock" });
+    }
+
+    sweet.quantity -= 1;
+    await sweet.save();
+
+    return res.status(200).json(mapSweetToResponse(sweet));
+  } catch (error) {
+    console.error("PURCHASE SWEET ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
