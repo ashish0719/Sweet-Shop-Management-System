@@ -8,7 +8,7 @@ This project demonstrates backend API design, authentication, database integrati
 ## 🌐 Live Links
 
 - **Frontend (Live Application):**  
-  https://sweet-shop-management-system-steel.vercel.app/
+  (https://sweet-shop-management-system-gff3.vercel.app/)
 
 - **Backend (Live API):**  
   https://sweet-shop-backend-fzg2.onrender.com
