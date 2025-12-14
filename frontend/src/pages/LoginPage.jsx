@@ -21,7 +21,12 @@ function LoginPage() {
       })
 
       localStorage.setItem('token', response.data.token)
-      localStorage.setItem('user', JSON.stringify(response.data.user))
+      const userData = { ...response.data.user }
+      try {
+        const payload = JSON.parse(atob(response.data.token.split('.')[1]))
+        userData.role = payload.role
+      } catch {}
+      localStorage.setItem('user', JSON.stringify(userData))
       navigate('/sweets')
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed')
