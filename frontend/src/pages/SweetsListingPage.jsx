@@ -11,15 +11,32 @@ function SweetsListingPage() {
   const [minPrice, setMinPrice] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
   const [categories, setCategories] = useState([])
+  const [error, setError] = useState('')
   const allCategories = category && !categories.includes(category) 
     ? [...categories, category] 
     : categories
 
-  const handlePurchase = (sweetId) => {
+  const handlePurchase = async (sweetId) => {
     const token = localStorage.getItem('token')
     if (!token) {
       navigate('/login')
       return
+    }
+
+    setError('')
+    try {
+      const response = await apiClient.post(`/sweets/${sweetId}/purchase`)
+      setSweets((prev) =>
+        prev.map((sweet) =>
+          sweet.id === sweetId ? response.data : sweet
+        )
+      )
+    } catch (error) {
+      if (error.response?.status === 400) {
+        setError('Sweet out of stock')
+      } else {
+        console.error('Failed to purchase sweet:', error)
+      }
     }
   }
 
@@ -191,6 +208,11 @@ function SweetsListingPage() {
             Search
           </button>
         </form>
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
         {loading ? (
           <div className="text-center py-12">
             <p className="text-primary-700 text-lg">Loading...</p>
@@ -218,12 +240,18 @@ function SweetsListingPage() {
               </h2>
               <p className="text-primary-600 mb-2">${sweet.price.toFixed(2)}</p>
               <p className="text-primary-700 text-sm mb-4">Stock: {sweet.quantity}</p>
-              <button
-                onClick={() => handlePurchase(sweet.id)}
-                className="w-full px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-semibold"
-              >
-                Purchase
-              </button>
+              {sweet.quantity === 0 ? (
+                <p className="w-full px-4 py-2 bg-gray-300 text-gray-700 rounded-lg text-center font-semibold">
+                  Out of Stock
+                </p>
+              ) : (
+                <button
+                  onClick={() => handlePurchase(sweet.id)}
+                  className="w-full px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-semibold"
+                >
+                  Purchase
+                </button>
+              )}
             </div>
             ))}
           </div>
