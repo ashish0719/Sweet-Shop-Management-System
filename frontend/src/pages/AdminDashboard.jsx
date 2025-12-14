@@ -20,6 +20,8 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingSweet, setEditingSweet] = useState(null)
+  const [restockingSweet, setRestockingSweet] = useState(null)
+  const [restockQuantity, setRestockQuantity] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     category: '',
@@ -83,6 +85,25 @@ function AdminDashboard() {
       fetchSweets()
     } catch (error) {
       console.error('Failed to delete sweet:', error)
+    }
+  }
+
+  const handleRestock = (sweet) => {
+    setRestockingSweet(sweet)
+    setRestockQuantity('')
+  }
+
+  const handleRestockSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await apiClient.post(`/sweets/${restockingSweet.id}/restock`, {
+        quantity: parseInt(restockQuantity),
+      })
+      setRestockingSweet(null)
+      setRestockQuantity('')
+      fetchSweets()
+    } catch (error) {
+      console.error('Failed to restock sweet:', error)
     }
   }
 
@@ -236,6 +257,48 @@ function AdminDashboard() {
           </div>
         )}
 
+        {restockingSweet && (
+          <div className="bg-white rounded-lg shadow-sm p-6 border border-primary-100 mb-6">
+            <h2 className="text-2xl font-semibold text-primary-800 mb-4">
+              Restock {restockingSweet.name}
+            </h2>
+            <form onSubmit={handleRestockSubmit}>
+              <div className="mb-4">
+                <label htmlFor="restockQuantity" className="block text-sm font-medium text-primary-700 mb-2">
+                  Quantity to Add
+                </label>
+                <input
+                  id="restockQuantity"
+                  type="number"
+                  value={restockQuantity}
+                  onChange={(e) => setRestockQuantity(e.target.value)}
+                  required
+                  min="1"
+                  className="w-full px-4 py-2 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+              </div>
+              <div className="flex gap-4">
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-semibold"
+                >
+                  Restock
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRestockingSweet(null)
+                    setRestockQuantity('')
+                  }}
+                  className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors font-semibold"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sweets.map((sweet) => (
             <div
@@ -258,6 +321,12 @@ function AdminDashboard() {
                   className="flex-1 px-4 py-2 bg-accent-500 text-white rounded-lg hover:bg-accent-600 transition-colors font-semibold"
                 >
                   Edit
+                </button>
+                <button
+                  onClick={() => handleRestock(sweet)}
+                  className="flex-1 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-semibold"
+                >
+                  Restock
                 </button>
                 <button
                   onClick={() => handleDelete(sweet.id)}
