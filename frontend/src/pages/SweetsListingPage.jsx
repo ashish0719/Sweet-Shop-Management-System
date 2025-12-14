@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import apiClient from '../lib/api'
 
 function SweetsListingPage() {
+  const navigate = useNavigate()
   const [sweets, setSweets] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchName, setSearchName] = useState('')
@@ -12,6 +14,14 @@ function SweetsListingPage() {
   const allCategories = category && !categories.includes(category) 
     ? [...categories, category] 
     : categories
+
+  const handlePurchase = (sweetId) => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      navigate('/login')
+      return
+    }
+  }
 
   useEffect(() => {
     const fetchSweets = async () => {
@@ -207,7 +217,13 @@ function SweetsListingPage() {
                 {sweet.name}
               </h2>
               <p className="text-primary-600 mb-2">${sweet.price.toFixed(2)}</p>
-              <p className="text-primary-700 text-sm">Stock: {sweet.quantity}</p>
+              <p className="text-primary-700 text-sm mb-4">Stock: {sweet.quantity}</p>
+              <button
+                onClick={() => handlePurchase(sweet.id)}
+                className="w-full px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-semibold"
+              >
+                Purchase
+              </button>
             </div>
             ))}
           </div>
