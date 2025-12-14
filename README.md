@@ -1,9 +1,29 @@
 # 🍬 Sweet Shop Management System (TDD Kata)
 
 A full-stack **Sweet Shop Management System** built using **Test-Driven Development (TDD)** principles.  
-This project demonstrates backend API design, authentication, database integration, frontend SPA development, automated testing, clean coding practices, and **transparent AI-assisted development**.
+This project demonstrates backend API design, authentication, database integration, frontend SPA development, automated testing, clean coding practices, and **responsible AI-assisted development**.
 
 ---
+
+## 🌐 Live Links
+
+- **Frontend (Live Application):**  
+  https://sweet-shop-management-system-steel.vercel.app/
+
+- **Backend (Live API):**  
+  https://sweet-shop-backend-fzg2.onrender.com
+
+---
+
+## 🖥 Screenshots
+
+_Add screenshots inside a `/screenshots` folder_
+
+```md
+![Login Page](./screenshots/login.png)
+![Sweets Dashboard](./screenshots/dashboard.png)
+![Admin Panel](./screenshots/admin.png)
+
 
 ## 📌 Project Overview
 
