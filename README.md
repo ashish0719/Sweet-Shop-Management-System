@@ -97,6 +97,30 @@ This project strictly follows **Red → Green → Refactor** methodology.
 - Purchase & restock logic
 - Edge cases (out of stock, invalid inputs, unauthorized access)
 
+## 🤖 AI Usage (Critical Disclosure)
+
+AI tools were used transparently and responsibly throughout the development of this project to enhance productivity, code quality, and design efficiency.
+
+### How AI Was Used
+
+#### Project Architecture & Structure
+AI was used to help design the overall backend and frontend architecture, including folder structure, service layering, and API organization following clean architecture principles.
+
+#### Model Design (User & Sweets)
+AI assisted in creating the initial data models for users and sweets, including authentication fields, roles, and inventory attributes. All schemas were manually reviewed and refined.
+
+#### Test Creation (TDD)
+ChatGPT was used to generate initial unit and integration test cases before implementation, helping define expected behavior and edge cases as part of the Test-Driven Development workflow.
+
+#### Debugging & Test Failures
+Cursor IDE was used to analyze and resolve failing tests during Red → Green cycles, improving logic correctness and overall code readability.
+
+#### UI/UX Design Using AI
+GPT-generated prompts were used with Figma AI to design UI layouts, component hierarchy, and color themes, which were then manually implemented in the frontend.
+
+All final architectural decisions, business logic, validations, and implementations were reviewed, modified, and owned by the developer. AI was used strictly as an assistive tool and not as a replacement for engineering judgment.
+
+
 ### Run Tests
 ```bash
 cd backend
