@@ -18,9 +18,9 @@ This project demonstrates backend API design, authentication, database integrati
 ## 🖥 Screenshots
 
 ```md
-![Login Page](./login.png)
-![Sweets Dashboard](./dashboard.png)
-![Admin Panel](./admin.png)
+![Login Page](./login.PNG)
+![Sweets Dashboard](./dashboard.PNG)
+![Admin Panel](./admin.PNG)
 
 
 
