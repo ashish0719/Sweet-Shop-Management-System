@@ -20,9 +20,9 @@ This project demonstrates backend API design, authentication, database integrati
 _Add screenshots inside a `/screenshots` folder_
 
 ```md
-![Login Page](./screenshots/login.png)
-![Sweets Dashboard](./screenshots/dashboard.png)
-![Admin Panel](./screenshots/admin.png)
+![Login Page](./login.png)
+![Sweets Dashboard](./dashboard.png)
+![Admin Panel](./admin.png)
 
 
 ## 📌 Project Overview
