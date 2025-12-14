@@ -17,10 +17,12 @@ This project demonstrates backend API design, authentication, database integrati
 
 ## 🖥 Screenshots
 
-```md
+
+
 ![Login Page](./login.PNG)
 ![Sweets Dashboard](./dashboard.PNG)
 ![Admin Panel](./admin.PNG)
+
 
 
 
